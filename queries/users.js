@@ -15,4 +15,9 @@ const getUsers = async () => {
 }
 
 
+// const updateUsername = async (user) => {
+//     const updatedUser = db.one("UPDATE users SET (username)")
+// }
+
+
 module.exports = { createUser, getUsers }
