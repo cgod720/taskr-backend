@@ -1,0 +1,17 @@
+const db = require('../db/dbConfig')
+
+const createTask = async (task) => {
+    try {
+        const newTask = await db.one("INSERT into tasks (title, description, due_date, priority, status, creator_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *", [task.title, task.description, task.due_date, task.priority, task.status, task.creator_id])
+
+        return newTask
+    } catch (error) {
+        return error
+    }
+    
+
+}
+
+
+
+module.exports = { createTask }
