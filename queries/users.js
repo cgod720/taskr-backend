@@ -14,10 +14,29 @@ const getUsers = async () => {
     return users
 }
 
+const logInUser = async (user) => {
+    console.log(user)
+    const loggedInUser = await db.oneOrNone("SELECT * FROM users WHERE username=$1", [user.username])
+    console.log(loggedInUser)
+
+    if (!loggedInUser) {
+        return res.status(401).json({ error: 'Invalid username or password.' });
+    }
+
+    const passwordMatch = await bcrypt.compare(user.password_hash, loggedInUser.password_hash)
+
+
+    if (!passwordMatch) {
+        return res.status(401).json({ error: 'Invalid username or password.' });
+    }
+
+    return loggedInUser
+}
+
 
 // const updateUsername = async (user) => {
 //     const updatedUser = db.one("UPDATE users SET (username)")
 // }
 
 
-module.exports = { createUser, getUsers }
+module.exports = { createUser, getUsers, logInUser }

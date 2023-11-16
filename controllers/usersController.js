@@ -4,7 +4,7 @@ require('dotenv').config()
 const secretKey = process.env.SECRET
 const jwt = require('jsonwebtoken')
 
-const { createUser, getUsers } = require('../queries/users')
+const { createUser, getUsers, logInUser } = require('../queries/users')
 const { authenticateToken } = require('../auth/auth')
 
 
@@ -26,10 +26,22 @@ users.post('/', async (req, res) => {
         res.status(201).json({ user: newUser, token });
     } catch (error) {
         // console.log(error)
-        res.status(500).json({ error: "Invalid information", info: error })
+        res.status(500).json({ error: "Invalid information", info: error });
+    }
+})
+
+users.post('/login', async (req, res) => {
+    try {
+        const user = await logInUser(req.body);
+        const token = jwt.sign({ userId: user.user_id, username: user.username }, secretKey);
+        res.status(200).json({ user, token })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: 'Internal Server Error', info: error });
     }
 })
 
 
 
-module.exports = users
+module.exports = users;
