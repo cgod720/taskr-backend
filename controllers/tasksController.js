@@ -1,19 +1,31 @@
 const express = require('express');
 const tasks = express.Router({ mergeParams: true });
 const { authenticateToken } = require('../auth/auth');
-const { createTask, getTasks } = require('../queries/tasks');
+const { createTask, getTasks, getTask } = require('../queries/tasks');
 const { getUser } = require('../queries/users');
 
 
 tasks.get('/', authenticateToken, async (req, res) => {
     const { user_id } = req.params;
     try {
-        const tasks = await getTasks(user_id)
-        const user = await getUser(user_id)
-        res.status(200).json({ ...user, tasks })
+        const tasks = await getTasks(user_id);
+        const user = await getUser(user_id);
+        res.status(200).json({ ...user, tasks });
     } catch (error) {
-        res.status(404).json({ error: "User Not Found"})
+        res.status(404).json({ error: "User Not Found"});
     }
+})
+
+tasks.get('/:id', authenticateToken, async (req, res) => {
+    const { user_id, id } = req.params;
+    try {
+        const task = await getTask(user_id, id)
+        const user = await getUser(user_id);
+        res.status(200).json({ ...user, task })
+    } catch (error) {
+        res.status(404).json({ error: "Task Not Found" })
+    }
+
 })
 
 tasks.post('/', authenticateToken, async (req, res) => {

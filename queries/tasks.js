@@ -21,6 +21,15 @@ const getTasks = async (userId) => {
     }
 }
 
+const getTask = async (userId, id) => {
+    try {
+        const task = await db.one("SELECT * FROM tasks WHERE creator_id=$1 AND task_id=$2", [userId, id])
+        return task
+    } catch (error) {
+        return error
+    }
+}
 
 
-module.exports = { createTask, getTasks }
+
+module.exports = { createTask, getTasks, getTask }
