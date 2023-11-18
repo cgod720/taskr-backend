@@ -1,7 +1,7 @@
 const express = require('express');
 const tasks = express.Router({ mergeParams: true });
 const { authenticateToken } = require('../auth/auth');
-const { createTask, getTasks, getTask, updateTask } = require('../queries/tasks');
+const { createTask, getTasks, getTask, updateTask, deleteTask } = require('../queries/tasks');
 const { getUser } = require('../queries/users');
 
 
@@ -44,6 +44,17 @@ tasks.put('/:id', authenticateToken, async (req, res) => {
         res.status(200).json(updatedTask)
     } catch (error) {
         res.status(403).json({ error: "Invalid Operation" })
+    }
+})
+
+
+tasks.delete('/:id', authenticateToken, async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedTask = await deleteTask(id);
+        res.status(200).json(deletedTask)
+    } catch (error) {
+        res.status(404).json({ error: "Invalid Operation"})
     }
 })
 

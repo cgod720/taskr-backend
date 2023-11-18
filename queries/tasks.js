@@ -38,6 +38,15 @@ const updateTask = async (id, taskInfo) => {
     }
 }
 
+const deleteTask = async (id) => {
+    try {
+        const deletedTask = await db.one("DELETE FROM tasks WHERE task_id=$1 RETURNING *", id)
+        return deletedTask;
+    } catch (error) {
+        return error;
+    }
+}
 
 
-module.exports = { createTask, getTasks, getTask, updateTask };
+
+module.exports = { createTask, getTasks, getTask, updateTask, deleteTask };
