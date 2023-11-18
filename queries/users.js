@@ -14,6 +14,11 @@ const getUsers = async () => {
     return users
 }
 
+const getUser = async (userId) => {
+    const user = await db.one("SELECT * FROM users WHERE user_id=$1", userId)
+    return user;
+}
+
 const logInUser = async (user) => {
     console.log(user)
     const loggedInUser = await db.oneOrNone("SELECT * FROM users WHERE username=$1", [user.username])
@@ -39,4 +44,4 @@ const logInUser = async (user) => {
 // }
 
 
-module.exports = { createUser, getUsers, logInUser }
+module.exports = { createUser, getUsers, logInUser, getUser }

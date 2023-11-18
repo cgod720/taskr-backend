@@ -12,6 +12,15 @@ const createTask = async (task) => {
 
 }
 
+const getTasks = async (userId) => {
+    try {
+        const tasks = await db.any("SELECT * FROM tasks WHERE creator_id=$1", userId)
+        return tasks
+    } catch (error) {
+        return error
+    }
+}
 
 
-module.exports = { createTask }
+
+module.exports = { createTask, getTasks }
