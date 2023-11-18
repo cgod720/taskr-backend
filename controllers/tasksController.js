@@ -10,7 +10,7 @@ tasks.get('/', authenticateToken, async (req, res) => {
     try {
         const tasks = await getTasks(user_id)
         const user = await getUser(user_id)
-        res.status(200).json({ user, tasks })
+        res.status(200).json({ ...user, tasks })
     } catch (error) {
         res.status(404).json({ error: "User Not Found"})
     }
