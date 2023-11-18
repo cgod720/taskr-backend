@@ -3,8 +3,11 @@ const users = express.Router();
 require('dotenv').config();
 const secretKey = process.env.SECRET;
 const jwt = require('jsonwebtoken');
-const tasksController = require('./tasksController')
-users.use('/:user_id/tasks', tasksController)
+const tasksController = require('./tasksController');
+const assignmentsController = require('./assignmentsController');
+users.use('/:user_id/tasks', tasksController);
+users.use('/:user_id/assignments', assignmentsController);
+
 
 const { createUser, getUsers, logInUser } = require('../queries/users');
 

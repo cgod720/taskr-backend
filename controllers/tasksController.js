@@ -25,7 +25,6 @@ tasks.get('/:id', authenticateToken, async (req, res) => {
     } catch (error) {
         res.status(404).json({ error: "Task Not Found" });
     }
-
 })
 
 tasks.post('/', authenticateToken, async (req, res) => {
@@ -47,7 +46,6 @@ tasks.put('/:id', authenticateToken, async (req, res) => {
     }
 })
 
-
 tasks.delete('/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     try {
@@ -57,8 +55,5 @@ tasks.delete('/:id', authenticateToken, async (req, res) => {
         res.status(404).json({ error: "Invalid Operation"})
     }
 })
-
-
-
 
 module.exports = tasks;
