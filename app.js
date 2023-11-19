@@ -9,11 +9,10 @@ const taskController = require('./controllers/tasksController')
 app.use(cors())
 app.use(express.json())
 app.use('/users', userController)
-app.use('/tasks', taskController)
 
 
 app.get('/', (req, res) => {
-    res.json({ greeting: "Hello you must be lost", try: "'/tasks' to view available data"})
+    res.json({ greeting: "Hello you must be lost" })
 })
 
 

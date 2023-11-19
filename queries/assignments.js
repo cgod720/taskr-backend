@@ -10,6 +10,15 @@ const createAssignment = async (taskId, assigneeId, assignedById) => {
     }
 }
 
+const getAssignments = async (userId) => {
+    try {
+        const assignments = db.any("SELECT * FROM assignments WHERE assignee_id=$1", userId);
+        return assignments;
+    } catch (error) {
+        return error;
+    }
+}
 
-module.exports = { createAssignment };
+
+module.exports = { createAssignment, getAssignments };
 
