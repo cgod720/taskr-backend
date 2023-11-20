@@ -8,7 +8,7 @@ const createAssignment = async (taskId, assigneeId, assignedById) => {
     } catch (error) {
         return error;
     }
-}
+};
 
 const getAssignments = async (userId) => {
     try {
@@ -17,8 +17,31 @@ const getAssignments = async (userId) => {
     } catch (error) {
         return error;
     }
+};
+
+const updateAssignment = async (id, assignment) => {
+    try {
+        const updatedAssignment = await db.one("UPDATE assignments SET assignee_id=$1, task_id=$2, assigned_by_id=$3 WHERE assignmnent_id=$4", [assignment.assignee_id, assignment.task_id, assignment.assigned_by_id, id]);
+        return updatedAssignment;
+    } catch (error) {
+        return error;
+    }
+};
+
+const deleteAssignment = async (id) => {
+    try {
+        const deletedAssignment = await db.one("DELETE from assignments WHERE assignment_id=$1", id);
+        return deletedAssignment;
+    } catch (error) {
+        return error;
+    }
 }
 
 
-module.exports = { createAssignment, getAssignments };
+module.exports = { 
+    createAssignment, 
+    getAssignments, 
+    updateAssignment, 
+    deleteAssignment 
+};
 
